@@ -87,7 +87,10 @@ export default function DrillPage() {
   };
 
   return (
-    <main className="min-h-screen w-full bg-slate-950 font-sans text-slate-100">
+    // The root layout sets overflow-hidden on <body> for the fixed-viewport
+    // dashboard, so this page needs to own its scrolling rather than relying on
+    // the document scrollbar.
+    <main className="h-screen w-full overflow-y-auto overflow-x-hidden bg-slate-950 font-sans text-slate-100">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-20 flex flex-wrap items-center gap-3 border-b border-slate-800/80 bg-slate-950/95 px-4 py-3 backdrop-blur-xl">
         <Link href="/">
