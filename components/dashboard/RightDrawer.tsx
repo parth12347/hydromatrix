@@ -222,7 +222,10 @@ export const RightDrawer: React.FC = () => {
         </Button>
       </div>
 
-      <div className="p-3.5 space-y-3.5 text-slate-200">
+      {/* pb-28 keeps the foot of the panel clear of the Matrix Assistant FAB,
+          which is fixed bottom-right at z-50 and otherwise covers whatever sits
+          at the bottom of this scroll area. */}
+      <div className="p-3.5 pb-28 space-y-3.5 text-slate-200">
         {/* ── TABS: COMPACT SEGMENTED CONTROL ────────────────────────────────── */}
         <div className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/80 p-1 text-xs">
           <button
