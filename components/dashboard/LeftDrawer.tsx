@@ -71,14 +71,14 @@ export const LeftDrawer: React.FC = () => {
     removeDisaster,
   } = useFloodSimulation();
 
-  const { isLeftDrawerOpen, setIsLeftDrawerOpen, playTacticalAlertSound, setActiveModal, t } = useUIContext();
+  const { isLeftDrawerOpen, setIsLeftDrawerOpen, toggleLeftDrawer, playTacticalAlertSound, setActiveModal, t } = useUIContext();
 
   const [pumpsExpanded, setPumpsExpanded] = useState(false);
 
   if (!isLeftDrawerOpen) {
     return (
       <button
-        onClick={() => setIsLeftDrawerOpen(true)}
+        onClick={toggleLeftDrawer}
         className="absolute top-16 left-0 z-30 flex items-center gap-2 rounded-r-lg border border-l-0 border-cyan-500/40 bg-slate-950/90 px-3 py-2 text-xs font-semibold text-cyan-300 shadow-xl backdrop-blur-md transition-transform hover:translate-x-1"
         title={t('controlsAndPumps', 'CONTROLS & PUMPS')}
       >
@@ -135,7 +135,9 @@ export const LeftDrawer: React.FC = () => {
   const allPumpsActive = activePumpIds.size === gmdaPumps.length;
 
   return (
-    <aside className="relative z-30 flex flex-col w-full sm:w-[21rem] md:w-96 max-w-full h-full max-h-screen border-r border-slate-800/80 bg-slate-950/95 shadow-2xl backdrop-blur-xl overflow-y-auto">
+    // Below lg the three-column layout cannot fit the map and both drawers, so
+    // the drawer overlays the map rather than squeezing it to zero width.
+    <aside className="absolute inset-y-0 left-0 z-40 lg:relative lg:inset-auto lg:z-30 flex flex-col w-full sm:w-[21rem] md:w-96 max-w-full h-full max-h-screen border-r border-slate-800/80 bg-slate-950/95 shadow-2xl backdrop-blur-xl overflow-y-auto">
       {/* Header bar */}
       <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-800 bg-slate-950/90 px-4 py-3 backdrop-blur-md">
         <div className="flex items-center gap-2">

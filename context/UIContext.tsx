@@ -135,8 +135,36 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     }));
   }, []);
 
-  const toggleLeftDrawer = useCallback(() => setIsLeftDrawerOpen(p => !p), []);
-  const toggleRightDrawer = useCallback(() => setIsRightDrawerOpen(p => !p), []);
+  /** True when the viewport is too narrow to show the map and a drawer at once. */
+  const isNarrowViewport = () =>
+    typeof window !== 'undefined' && window.innerWidth < 1024;
+
+  // The command layout places both drawers either side of the map. Below the lg
+  // breakpoint there is not enough width for all three, and the map collapses to
+  // zero. Start with the drawers closed there; each has a tab to reopen it.
+  useEffect(() => {
+    if (isNarrowViewport()) {
+      setIsLeftDrawerOpen(false);
+      setIsRightDrawerOpen(false);
+    }
+  }, []);
+
+  const toggleLeftDrawer = useCallback(() => {
+    setIsLeftDrawerOpen(p => {
+      const next = !p;
+      // On a narrow screen the drawers overlay the map, so only one at a time.
+      if (next && isNarrowViewport()) setIsRightDrawerOpen(false);
+      return next;
+    });
+  }, []);
+
+  const toggleRightDrawer = useCallback(() => {
+    setIsRightDrawerOpen(p => {
+      const next = !p;
+      if (next && isNarrowViewport()) setIsLeftDrawerOpen(false);
+      return next;
+    });
+  }, []);
   const toggleAudioAlerts = useCallback(() => setAudioAlertsEnabled(p => !p), []);
   const toggleFullscreenMap = useCallback(() => setIsFullscreenMap(p => !p), []);
 

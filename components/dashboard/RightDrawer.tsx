@@ -129,6 +129,7 @@ export const RightDrawer: React.FC = () => {
 
   const {
     isRightDrawerOpen,
+    toggleRightDrawer,
     setIsRightDrawerOpen,
     setActiveModal,
     playTacticalAlertSound,
@@ -150,7 +151,7 @@ export const RightDrawer: React.FC = () => {
   if (!isRightDrawerOpen) {
     return (
       <button
-        onClick={() => setIsRightDrawerOpen(true)}
+        onClick={toggleRightDrawer}
         className="absolute top-16 right-0 z-30 flex items-center gap-2 rounded-l-lg border border-r-0 border-cyan-500/40 bg-slate-950/90 px-3 py-2 text-xs font-semibold text-cyan-300 shadow-xl backdrop-blur-md transition-transform hover:-translate-x-1"
         title={t('telemetryAndFeed', 'TELEMETRY & 18 AWS FEED')}
       >
@@ -188,7 +189,8 @@ export const RightDrawer: React.FC = () => {
     PRESET_SCENARIOS.find((p) => p.id === activeScenarioId) || PRESET_SCENARIOS[0];
 
   return (
-    <aside className="relative z-30 flex flex-col w-full sm:w-[22rem] md:w-[24rem] max-w-full h-full max-h-screen border-l border-slate-800/80 bg-slate-950/95 shadow-2xl backdrop-blur-xl overflow-y-auto overflow-x-hidden">
+    // Below lg the drawer overlays the map rather than sharing the row with it.
+    <aside className="absolute inset-y-0 right-0 z-40 lg:relative lg:inset-auto lg:z-30 flex flex-col w-full sm:w-[22rem] md:w-[24rem] max-w-full h-full max-h-screen border-l border-slate-800/80 bg-slate-950/95 shadow-2xl backdrop-blur-xl overflow-y-auto overflow-x-hidden">
       {/* ── HEADER ────────────────────────────────────────────────────────── */}
       <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-800 bg-slate-950/90 px-4 py-3 backdrop-blur-md">
         <div className="flex items-center gap-2.5">
