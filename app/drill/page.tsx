@@ -117,7 +117,7 @@ export default function DrillPage() {
 
       <div className="mx-auto grid max-w-[1500px] gap-4 p-4 lg:grid-cols-[minmax(0,1fr)_360px]">
         {/* ── Placement board ───────────────────────────────────────────────── */}
-        <section className="space-y-3 rounded-xl border border-slate-800/80 bg-slate-950/60 p-4">
+        <section className="min-w-0 space-y-3 rounded-xl border border-slate-800/80 bg-slate-950/60 p-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-xs font-bold uppercase tracking-wider text-cyan-300">
               {hasRun ? 'Outcome — Water Depth' : 'Barrier Placement Board'}
@@ -130,10 +130,13 @@ export default function DrillPage() {
           </div>
 
           {/* 18x18 sector board */}
-          <div
-            className="grid gap-[2px]"
-            style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, minmax(0, 1fr))` }}
-          >
+          {/* The board keeps a minimum cell size so sectors stay tappable on a
+              phone, and pans horizontally rather than shrinking to 15px squares. */}
+          <div className="-mx-1 overflow-x-auto px-1 pb-1">
+            <div
+              className="grid gap-[2px]"
+              style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, minmax(28px, 1fr))` }}
+            >
             {Array.from({ length: GRID_HEIGHT }).flatMap((_, y) =>
               Array.from({ length: GRID_WIDTH }).map((__, x) => {
                 const cell = BOARD[y]?.[x];
@@ -175,8 +178,9 @@ export default function DrillPage() {
                     )}
                   </button>
                 );
-              }),
-            )}
+                }),
+              )}
+            </div>
           </div>
 
           {/* Outcome timeline */}
@@ -206,7 +210,7 @@ export default function DrillPage() {
         </section>
 
         {/* ── Control column ────────────────────────────────────────────────── */}
-        <aside className="space-y-3">
+        <aside className="min-w-0 space-y-3">
           {/* Drill selection */}
           <div className="space-y-2 rounded-xl border border-slate-800/80 bg-slate-950/60 p-3">
             <h2 className="text-xs font-bold uppercase tracking-wider text-cyan-300">
